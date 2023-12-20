@@ -1,0 +1,10 @@
+--gamepath=D:\gem\Genshin Impact game
+--temppath=F:\
+--patchpath=F:\
+#--logpath=.
+--hpatchzpath=D:\gem\GS launcher
+#--apipath=F:\mhyapi.json
+#--downloadonly
+#--predownloadonly
+--language
+en-us

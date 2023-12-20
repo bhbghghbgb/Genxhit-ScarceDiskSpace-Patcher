@@ -1,0 +1,10 @@
+### I haven't touched this since a few days after starting the project
++ UpdateFile as single update file
++ Patch for one file at a time
++ Remake progress for one update file at a time
++ Use rich progress bar, learn to use different bars at a time
++ Use single GameInfo for all update instance
++ Build processer for downloading and patching at same time
+- Offline scan mode: scan update files to determine version vs. Online: get latest version from mhy api
+- Enhanced verifying: if failed file from GAME then redownload using ScatteredFiles, else redownload full Language
+- Use multiprocessing instead of threading
