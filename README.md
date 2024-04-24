@@ -24,6 +24,7 @@ Run `pipenv run python gsp.py`.
 It runs on my machine.
 - I have tested patch `4.2.0` -> `4.3.0`.
 - I have tested download full game `4.3.0`.
+- I have tested patch `4.5.0` -> `4.6.0`.
 Sorry, I didn't write the project with testability in mind.
 
 ## Caution
@@ -56,17 +57,18 @@ I know there's not a lot of people in my shoes, so let me explain my problems:
     - While the patch job started on the downloaded file, it will run the download job for the next archive.
     - Only one download and one patch job is run at a time.
 - Use Textutal's `rich` to show patch progress.
-- Workflows:
-    1. Clears all deprecated files before patching.
-        - It does not clears non-critical game files such as webCaches and logs (in case you need them for whatever), if you want to restore a little more space here, run the `delete_standalone.py` script.
-    1. Runs the download job for each of the update archive to download.
-    1. Once the download job of an update archive has finished, runs a patch job with it, and runs the download job for the next archive.
-        1. Clears deprecated files in `deletefiles.txt`.
-        1. Extract all standard files (files that are not `.hdiff`, or files that aren't in `hdifffiles.txt`).
-        1. Extract the `.hdiff` files, patch to a new file, copy it back to the game directory, then delete it.
-        1. (Optionally, should **not** use) Run a md5 file integrity using entries in `*_pkg_version`.
-    1. Write a new `config.ini` for the current version.
 - Currently Windows-only, but if you remove the pywin32 requirement (file preallocate and timestamp writing), it will be cross-platform.
+
+## Workflows:
+1. Clears all deprecated files before patching.
+    - ~~It does not clears non-critical game files such as webCaches and logs (in case you need them for whatever), ~~if you want to restore a little more space here, run the `delete_standalone.py` script~~. **DOES NOT WORK**, read [here](#current-expected-problems)
+1. Runs the download job for each of the update archive to download.
+1. Once the download job of an update archive has finished, runs a patch job with it, and runs the download job for the next archive.
+    1. Clears deprecated files in `deletefiles.txt`.
+    1. Extract all standard files (files that are not `.hdiff`, or files that aren't in `hdifffiles.txt`).
+    1. Extract the `.hdiff` files, patch to a new file, copy it back to the game directory, then delete it.
+    1. (Optionally, should **not** use) Run a md5 file integrity using entries in `*_pkg_version`.
+1. Write a new `config.ini` for the current version.
 
 ## Project's future
 - I don't plan on improving anything, since I might just rewrite it from scratch cause this thing is too much a mess.
@@ -82,3 +84,9 @@ I know there's not a lot of people in my shoes, so let me explain my problems:
     - https://github.com/GamerYuan/GenshinPatcher (patching workflows)
     - https://github.com/Scighost/Starward (API parsing, progress reporting)
     - https://github.com/DevonTM/genshin-updater (downloading workflows, progress reporting)
+
+## Current expected problems
+- `delete_standalone.py` does **NOT** work correctly. Only use it to check whether you have non-tracked files (files that are not in `pkg_version`).
+- Instead, delete `GenshinImpact_Data\Persistent` with administrator privileges, game will redownload hot-patch again on its own.
+- `delete_standalone.py` can not delete some files in `GenshinImpact_Data\Persistent` because they are marked read-only.
+- **Delete** `GenshinImpact_Data\Persistent`, optionally `GenshinImpact_Data\webCaches` if it's taking too much space, or game doesn't work correctly.
