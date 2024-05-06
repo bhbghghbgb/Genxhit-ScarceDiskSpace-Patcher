@@ -5,6 +5,8 @@ Genxhit-ScarceDiskSpace-Patcher is a not-very-user-friendly python project that 
 
 It also tries to write timestamps of the files from the update archive to the game files to allow for a better experience of robocopy (rsync) in case you want to sync the game files to different computers without redownloading/repatching.
 
+[Tips](#tips) I learned
+
 ## Dependencies (for Windows)
 - Python 3.12.
 - pipenv
@@ -24,7 +26,7 @@ Run `pipenv run python gsp.py`.
 It runs on my machine.
 - I have tested patch `4.2.0` -> `4.3.0`.
 - I have tested download full game `4.3.0`.
-- I have tested patch `4.5.0` -> `4.6.0`.
+- I have tested patch `4.5.0` -> `4.6.0`. (In action video https://youtu.be/hos_2SXQ-aw)
 Sorry, I didn't write the project with testability in mind.
 
 ## Caution
@@ -90,3 +92,11 @@ I know there's not a lot of people in my shoes, so let me explain my problems:
 - Instead, delete `GenshinImpact_Data\Persistent` with administrator privileges, game will redownload hot-patch again on its own.
 - `delete_standalone.py` can not delete some files in `GenshinImpact_Data\Persistent` because they are marked read-only.
 - **Delete** `GenshinImpact_Data\Persistent`, optionally `GenshinImpact_Data\webCaches` if it's taking too much space, or game doesn't work correctly.
+
+## Tips
+- If you want minimal disk writes, use a ramdisk for temporary files, I use ImDisk Virtual Disk Driver and create a 2GB drive.
+- If you need game installation on multiple machines, you can use python pyftpdlib library to create ftp server and use WinSCP to download game files from it.
+    - Make sure to use optimized settings such as `Delete files`, and file difference checks such as `Modified date` and `File size`.
+    - Better use `Synchronize` function and set target directory to `Local`.
+    - Files deleted by WinSCP by default will be sent to Recycle Bin, so remember to clear it afterwards.
+    - See demo video https://youtu.be/bp26BKjW56w
